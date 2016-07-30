@@ -1,6 +1,34 @@
 <h1>Editing Task</h1>
 
 <%= render 'form', task: @task %>
-
+<% @users.each do |u|%>
+  <%= u.email%>
+  <button class="add_user" data-id="<%=u.id%>">+</button>
+<%end%>
 <%= link_to 'Show', @task %> |
 <%= link_to 'Back', tasks_path %>
+<script>
+$('.add_user').on('click', function(e) {
+  console.log('asdasdasdasd');
+  console.log($(this).data("id"));
+  $.ajax({
+    method: 'POST',
+    url: '/share_task',
+    data:{
+      id: "<%= @task.id%>",
+      user_id: $(this).data("id")
+    },
+    success: function (data) {
+      $('.loader-block').css("display", "none");
+      console.log(data);
+      if(data['status'] == 'ok') {
+        alert(data['message'])
+
+      }
+      if (data['status'] == 'error'){
+        alert(data['message'])
+      }
+    }
+  });//end of ajax
+});
+</script>

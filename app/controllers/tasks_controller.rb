@@ -4,25 +4,23 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = current_user.tasks
+    @tasks = current_user.tasks if current_user
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
-    @users = User.all
-    UserMailer.share_email(current_user,current_user,set_task).deliver_now
-    puts 'UserMailer'
+
   end
 
   # GET /tasks/new
   def new
     @task = Task.new
-
   end
 
   # GET /tasks/1/edit
   def edit
+    @users = User.all
   end
 
   # POST /tasks
@@ -67,11 +65,14 @@ class TasksController < ApplicationController
 
   def share
     set_task
-    user = User.find_by(id: params[:id])
+    user = User.find_by(id: params[:user_id])
+    puts user.email
+    puts @task.name
     if user.present?
-      unless @task.users.include?(current_user)
-        @task.users << current_user
-        UserMailer.share_email(current_user, user, @task)
+      unless @task.users.include?(user)# check TODO unless
+        @task.users << user
+        UserMailer.share_email(current_user,user,set_task).deliver_now
+        TasksChannel.broadcast(@task)
         render json: { status: 'ok', message: 'success' }
       else
         render json: { status: 'error', message: 'this user already has access to this task' }
