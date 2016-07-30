@@ -10,7 +10,7 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.json
   def show
-
+    authorize! :read, @task
   end
 
   # GET /tasks/new
@@ -21,6 +21,7 @@ class TasksController < ApplicationController
   # GET /tasks/1/edit
   def edit
     @users = User.all
+    authorize! :read, @task
   end
 
   # POST /tasks
@@ -56,6 +57,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
+    authorize! :read, @task
     @task.destroy
     respond_to do |format|
       format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
@@ -69,10 +71,10 @@ class TasksController < ApplicationController
     puts user.email
     puts @task.name
     if user.present?
-      unless @task.users.include?(user)# check TODO unless
+      if @task.users.include?(user)# TODO unless
         @task.users << user
         UserMailer.share_email(current_user,user,set_task).deliver_now
-        TasksChannel.broadcast(@task)
+        TasksChannel.broadcast(@task,@task.users)
         render json: { status: 'ok', message: 'success' }
       else
         render json: { status: 'error', message: 'this user already has access to this task' }
