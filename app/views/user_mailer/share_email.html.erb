@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi, <%= @recipient_user.email %></h1>
+    <p>
+      User <%= @current_user.email%> shared with you this task <%=@url %>, you can edit it now.<br>
+    </p>
+
+    <p>Have a great day!</p>
+  </body>
+</html>

@@ -4,17 +4,21 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    @users = User.all
+    UserMailer.share_email(current_user,current_user,set_task).deliver_now
+    puts 'UserMailer'
   end
 
   # GET /tasks/new
   def new
     @task = Task.new
+
   end
 
   # GET /tasks/1/edit
@@ -25,7 +29,7 @@ class TasksController < ApplicationController
   # POST /tasks.json
   def create
     @task = Task.new(task_params)
-
+    @task.users << current_user
     respond_to do |format|
       if @task.save
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
@@ -58,6 +62,22 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def share
+    set_task
+    user = User.find_by(id: params[:id])
+    if user.present?
+      unless @task.users.include?(current_user)
+        @task.users << current_user
+        UserMailer.share_email(current_user, user, @task)
+        render json: { status: 'ok', message: 'success' }
+      else
+        render json: { status: 'error', message: 'this user already has access to this task' }
+      end
+    else
+      render json: { status: 'error', message: 'error sharing with user' }
     end
   end
 
