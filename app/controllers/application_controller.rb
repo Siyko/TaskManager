@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    flash[:notice] = "You don't have access"
+    redirect_to tasks_path, alert: "asdasdasd"
   end
 
 end
