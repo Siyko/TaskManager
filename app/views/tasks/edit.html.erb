@@ -1,12 +1,21 @@
-<h1>Editing Task</h1>
-
+<h1 class="center-div">Editing Task</h1>
 <%= render 'form', task: @task %>
-<% @users.each do |u|%>
-  <%= u.email%>
-  <button class="add_user" data-id="<%=u.id%>">+</button>
-<%end%>
-<%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+<section>
+  <div class="container">
+    <div class="center-div">
+      <% @users.each do |u|%>
+      <li class="list-unstyled">
+        <%= u.email%>
+        <button class="add_user btn btn-success" data-id="<%=u.id%>">Share</button>
+      </li>
+      <%end%>
+    </div>
+    <div class="center-div">
+      <%= link_to 'Show', @task, :class=>'btn btn-default' %> |
+      <%= link_to 'Back', tasks_path, :class=>'btn btn-default' %>
+    </div>
+  </div>
+</section>
 <script>
 $('.add_user').on('click', function(e) {
   console.log('asdasdasdasd');

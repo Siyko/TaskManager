@@ -1,8 +1,19 @@
-<%if current_user%>
-  <%= current_user.email%>
-  <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete%>
-<%else%>
-  <a href="users/sign_in">Sign In</a>
-  <a href="users/sign_up">Sign Up</a>
-</div>
-<%end%>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Task Manager</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <%if current_user%>
+        <li><a><%= current_user.email%></a></li>
+        <li><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete%></li>
+      <%else%>
+        <li><a href="<%=new_user_session_path%>"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+        <li><a href="<%=new_user_registration_path%>"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <%end%>
+    </ul>
+  </div>
+</nav>

@@ -1,23 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Tasks</h1>
-
-<table>
+<table class="table table-striped task-table">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th colspan="3"> <h3>Tasks</h3></th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="tasks">
     <%if current_user%>
       <% @tasks.each do |task| %>
-      <li>
-      <%= task.name %>
-          <%= link_to 'Show', task %>
-          <%= link_to 'Edit', edit_task_path(task) %>
-          <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </li>
+      <tr class="task">
+        <td class="name"><%= task.name %></td>
+        <td class="description"><%= task.description%></td>
+        <td>
+          <span><%= link_to 'Show', task, :class=>'btn btn-primary' %></span>
+          <span><%= link_to 'Edit', edit_task_path(task), :class=>'btn btn-warning' %></span>
+          <span><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }, :class=>'btn btn-danger' %></span>
+        </td>
+      </tr>
       <% end %>
     <%end%>
   </tbody>
@@ -25,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Task', new_task_path %>
+<%= link_to 'New Task', new_task_path, :class=>'btn btn-default btn-lg' %>
