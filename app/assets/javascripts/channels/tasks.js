@@ -19,6 +19,7 @@ App.tasks = App.cable.subscriptions.create("TasksChannel", {
           <span><a class="btn btn-warning" href="/tasks/' + data.task.id + '/edit">Edit</a></span>\
           <span><a data-confirm="Are you sure?" class="btn btn-danger" rel="nofollow" data-method="delete" href="/tasks/' + data.task.id + '">Destroy</a></span>\
         </td>\
+        <td>Shared by ' + data.task.last_shared + '</td>\
       </tr>'
     )
     // Called when there's incoming data on the websocket for this channel

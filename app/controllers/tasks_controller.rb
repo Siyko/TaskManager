@@ -69,13 +69,11 @@ class TasksController < ApplicationController
   def share
     set_task
     user = User.find(params[:user_id])
-    puts user.email
-    puts @task.name
     if user.present?
       if @task.users.include?(user)# TODO unless
+        @task.update_attributes(last_shared: current_user.email)
         @task.users << user
-        UserMailer.share_email(current_user,user,set_task).deliver_now
-        #task
+        current_user.send_email(user,@task)
         render json: { status: 'ok', message: 'success' }
       else
         render json: { status: 'error', message: 'this user already has access to this task' }

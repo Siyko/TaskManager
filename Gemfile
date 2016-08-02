@@ -38,6 +38,9 @@ gem 'devise'
 gem 'puma'
 gem 'cancancan', '~> 1.10'
 gem 'bootstrap-sass'
+gem 'rspec-rails', '~> 3.5'
+gem 'factory_girl_rails'
+gem 'faker'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
