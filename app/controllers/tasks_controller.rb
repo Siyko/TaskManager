@@ -70,7 +70,7 @@ class TasksController < ApplicationController
     set_task
     user = User.find(params[:user_id])
     if user.present?
-      if @task.users.include?(user)# TODO unless
+      unless @task.users.include?(user)# TODO unless
         @task.update_attributes(last_shared: current_user.email)
         @task.users << user
         current_user.send_email(user,@task)
