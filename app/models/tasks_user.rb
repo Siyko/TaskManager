@@ -6,6 +6,8 @@ class TasksUser < ApplicationRecord
   private
   def broadcast
     puts 'broadcasted'
-    TasksChannel.broadcast_to User.find(self.user_id), task: Task.find(self.task_id)
+    if self.task_id.present?
+      TasksChannel.broadcast_to User.find(self.user_id), task: Task.find(self.task_id)
+    end
   end
 end

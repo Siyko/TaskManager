@@ -20,3 +20,14 @@ body{
 .task-table{
   width: 600px;
 }
+.loading {
+  display:none;
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+}
+.errors{
+  color: red;
+}

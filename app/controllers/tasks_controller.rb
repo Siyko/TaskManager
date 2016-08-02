@@ -4,7 +4,8 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    authenticate_user!
+    @tasks = current_user.tasks
   end
 
   # GET /tasks/1
@@ -71,7 +72,7 @@ class TasksController < ApplicationController
     puts user.email
     puts @task.name
     if user.present?
-      unless @task.users.include?(user)# TODO unless
+      if @task.users.include?(user)# TODO unless
         @task.users << user
         UserMailer.share_email(current_user,user,set_task).deliver_now
         #task

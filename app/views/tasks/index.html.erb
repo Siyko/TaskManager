@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" class="errors"><%= notice %></p>
 
 <table class="table table-striped task-table">
   <thead>
@@ -6,7 +6,7 @@
       <th colspan="3"> <h3>Tasks</h3></th>
     </tr>
   </thead>
-
+<%if @tasks.present?%>
   <tbody class="tasks">
     <%if current_user%>
       <% @tasks.each do |task| %>
@@ -22,6 +22,9 @@
       <% end %>
     <%end%>
   </tbody>
+<%else%>
+<td>You have no tasks yet(</td>
+<%end%>
 </table>
 
 <br>

@@ -1,6 +1,7 @@
 <h1 class="center-div">Editing Task</h1>
 <%= render 'form', task: @task %>
 <section>
+
   <div class="container">
     <div class="center-div">
       <% @users.each do |u|%>
@@ -11,15 +12,23 @@
       <%end%>
     </div>
     <div class="center-div">
+      <div class="loading">
+          <p><img src="<%= asset_path "ajax_loader.gif" %>" /> Please Wait</p>
+      </div>
       <%= link_to 'Show', @task, :class=>'btn btn-default' %> |
       <%= link_to 'Back', tasks_path, :class=>'btn btn-default' %>
+
     </div>
   </div>
+
 </section>
+
 <script>
+
 $('.add_user').on('click', function(e) {
   console.log('asdasdasdasd');
   console.log($(this).data("id"));
+  $(".loading").show();
   $.ajax({
     method: 'POST',
     url: '/share_task',
@@ -32,10 +41,11 @@ $('.add_user').on('click', function(e) {
       console.log(data);
       if(data['status'] == 'ok') {
         alert(data['message'])
-
+        $(".loading").hide();
       }
       if (data['status'] == 'error'){
         alert(data['message'])
+        $(".loading").hide();
       }
     }
   });//end of ajax

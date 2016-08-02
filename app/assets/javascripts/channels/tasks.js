@@ -8,7 +8,7 @@ App.tasks = App.cable.subscriptions.create("TasksChannel", {
   },
 
   received: function(data) {
-    alert(data)
+    //alert(data)
     console.log(data);
     return $('.tasks').append(
       '<tr class="task">\
